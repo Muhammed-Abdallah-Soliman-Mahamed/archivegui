@@ -1,0 +1,63 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:ArchiveGui.ViewModels"
+        x:Class="ArchiveGui.Views.MainWindow"
+        x:DataType="vm:MainViewModel"
+        Title="Archive GUI"
+        Width="620" Height="580">
+
+    <StackPanel Margin="20" Spacing="10">
+
+        <Button Content="اختار ملفات" Click="OnPickFilesClick" />
+        <TextBlock Text="{Binding SelectedFilesText}" />
+
+        <Separator Margin="0,10" />
+
+        <TextBlock Text="مكان الحفظ (المجلد):" FontWeight="Bold" />
+        <StackPanel Orientation="Horizontal" Spacing="10">
+            <TextBox Text="{Binding DestinationFolder}" Width="400" IsReadOnly="True" />
+            <Button Content="اختار المجلد" Click="OnPickFolderClick" />
+        </StackPanel>
+
+        <TextBlock Text="اسم الملف (بدون امتداد):" FontWeight="Bold" />
+        <TextBox Text="{Binding ArchiveFileName}" Width="300" HorizontalAlignment="Left" />
+
+        <TextBlock Text="الصيغة:" FontWeight="Bold" />
+        <ComboBox ItemsSource="{Binding AvailableFormats}"
+                  SelectedItem="{Binding SelectedFormat}"
+                  Width="250" HorizontalAlignment="Left" />
+
+        <TextBlock Text="{Binding DestinationPath, StringFormat='المسار النهائي: {0}'}"
+                   FontStyle="Italic" />
+
+        <Separator Margin="0,10" />
+
+        <TextBlock Text="مجلد الاستخراج:" FontWeight="Bold" />
+        <StackPanel Orientation="Horizontal" Spacing="10">
+            <TextBox Text="{Binding ExtractionFolder}" Width="400" IsReadOnly="True" />
+            <Button Content="اختار مجلد الاستخراج" Click="OnPickExtractionFolderClick" />
+        </StackPanel>
+
+        <StackPanel Orientation="Horizontal" Spacing="10">
+            <Button Content="إنشاء أرشيف" Command="{Binding CreateArchiveCommand}" />
+            <Button Content="عرض المحتويات" Command="{Binding ListEntriesCommand}" />
+            <Button Content="استخراج" Command="{Binding ExtractArchiveCommand}" />
+        </StackPanel>
+
+        <ProgressBar Minimum="0" Maximum="100" Value="{Binding ProgressValue}" Height="20" />
+
+        <TextBlock Text="{Binding StatusMessage}" FontWeight="Bold" />
+
+        <Separator Margin="0,10" />
+
+        <TextBlock Text="ملف الأرشيف (لعرض المحتويات أو الاستخراج):" FontWeight="Bold" />
+        <StackPanel Orientation="Horizontal" Spacing="10">
+            <TextBox Text="{Binding SourceArchivePath}" Width="400" IsReadOnly="True" />
+            <Button Content="اختار ملف الأرشيف" Click="OnPickSourceArchiveClick" />
+        </StackPanel>
+
+        <TextBlock Text="محتويات الأرشيف:" />
+        <ListBox ItemsSource="{Binding ArchiveEntries}" Height="130" />
+
+    </StackPanel>
+</Window>

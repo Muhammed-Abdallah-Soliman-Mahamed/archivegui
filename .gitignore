@@ -1,0 +1,28 @@
+# مشاريع مستبعدة عمدًا من الريبو ده
+Todo-list/
+ArchiveBlazor/
+
+# .NET build outputs
+bin/
+obj/
+publish/
+
+# Node / SCSS tooling
+node_modules/
+
+# ملفات النشر والتغليف
+*.AppImage
+*.deb
+*.rpm
+*.zip
+
+# IDE
+.vs/
+.vscode/
+*.user
+
+.DS_Store
+
+# ملفات احتياطية ونواتج تغليف
+*.bak
+ArchiveGui/dist/

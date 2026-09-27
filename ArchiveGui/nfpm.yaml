@@ -1,0 +1,29 @@
+name: archivegui
+arch: amd64
+platform: linux
+version: 1.0.0
+release: "1"
+section: utils
+priority: optional
+maintainer: "Mohammad"
+description: "ArchiveGui - Archive Manager"
+
+contents:
+  - src: ./publish/linux-x64/ArchiveGui
+    dst: /usr/lib/archivegui/ArchiveGui
+    file_info:
+      mode: 0755
+
+  - src: ./publish/linux-x64/libSkiaSharp.so
+    dst: /usr/lib/archivegui/libSkiaSharp.so
+
+  - src: ./publish/linux-x64/libHarfBuzzSharp.so
+    dst: /usr/lib/archivegui/libHarfBuzzSharp.so
+
+  - src: ./packaging/archivegui-launcher
+    dst: /usr/bin/archivegui
+    file_info:
+      mode: 0755
+
+  - src: ./packaging/archivegui.desktop
+    dst: /usr/share/applications/archivegui.desktop
