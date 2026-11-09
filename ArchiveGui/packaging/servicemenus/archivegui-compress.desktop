@@ -1,0 +1,37 @@
+[Desktop Entry]
+Type=Service
+MimeType=all/allfiles;inode/directory;
+Actions=zip;sevenz;targz;rar;zipEnc;
+X-KDE-Submenu=Compress with ArchiveGui
+X-KDE-Submenu[ar]=ضغط بـ ArchiveGui
+X-KDE-Priority=TopLevel
+
+[Desktop Action zip]
+Name=Compress to .zip
+Name[ar]=ضغط إلى zip
+Icon=application-zip
+Exec=bash /usr/lib/archivegui/scripts/archivegui-compress-context.sh zip %F
+
+[Desktop Action sevenz]
+Name=Compress to .7z
+Name[ar]=ضغط إلى 7z
+Icon=application-x-7z-compressed
+Exec=bash /usr/lib/archivegui/scripts/archivegui-compress-context.sh 7z %F
+
+[Desktop Action targz]
+Name=Compress to .tar.gz
+Name[ar]=ضغط إلى tar.gz
+Icon=application-x-compressed-tar
+Exec=bash /usr/lib/archivegui/scripts/archivegui-compress-context.sh tar.gz %F
+
+[Desktop Action rar]
+Name=Compress to .rar
+Name[ar]=ضغط إلى rar
+Icon=application-x-rar
+Exec=bash /usr/lib/archivegui/scripts/archivegui-compress-context.sh rar %F
+
+[Desktop Action zipEnc]
+Name=Compress to .zip with password…
+Name[ar]=ضغط إلى zip بباسورد…
+Icon=document-encrypt
+Exec=bash /usr/lib/archivegui/scripts/archivegui-compress-context.sh --encrypt zip %F

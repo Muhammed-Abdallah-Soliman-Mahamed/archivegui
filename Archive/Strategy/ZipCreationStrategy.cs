@@ -1,4 +1,5 @@
 using Archive.Interface;
+using Archive.Models;
 using SharpCompress.Archives;
 using SharpCompress.Archives.Zip;
 using SharpCompress.Common;
@@ -6,28 +7,35 @@ using SharpCompress.Writers.Zip;
 
 namespace Archive.Strategy
 {
+    /// <summary>
+    /// Zip العادي (من غير باسورد) عن طريق SharpCompress.
+    /// لو فيه باسورد، الـ Factory بيحوّل الطلب لـ ExternalToolCreationStrategy.
+    /// </summary>
     public class ZipCreationStrategy : IArchiveCreationStrategy
     {
-        public bool CanHandle(string destinationArchivePath)
-        {
-            return Path.GetExtension(destinationArchivePath).Equals(".zip", StringComparison.OrdinalIgnoreCase);
-        }
+        public bool CanHandle(string destinationArchivePath, ArchiveCreationOptions options) =>
+            !options.IsEncrypted
+            && Path.GetExtension(destinationArchivePath).Equals(".zip", StringComparison.OrdinalIgnoreCase);
 
-        public async Task CreateAsync(List<string> filesToCompress, string destinationArchivePath, Action<long> reportBytesWritten)
+        public async Task CreateAsync(
+            ArchiveInput input,
+            string destinationArchivePath,
+            ArchiveCreationOptions options,
+            Action<long> reportBytesWritten)
         {
             await using var archive = await ZipArchive.CreateAsyncArchive();
 
-            foreach (var filePath in filesToCompress)
+            foreach (var source in input.Files)
             {
-                var fileInfo = new FileInfo(filePath);
-                await archive.AddEntryAsync(fileInfo.Name, fileInfo);
+                var fileInfo = new FileInfo(source.FullPath);
+                await archive.AddEntryAsync(source.EntryName, fileInfo);
                 reportBytesWritten(fileInfo.Length);
             }
 
-            await using var outputStream = File.OpenWrite(destinationArchivePath);
-            var options = new ZipWriterOptions(CompressionType.Deflate);
-            await archive.SaveToAsync(outputStream, options);
+            // File.Create بدل OpenWrite: لو الملف موجود قبل كده وأطول، مفيش بقايا قديمة في آخره.
+            await using var outputStream = File.Create(destinationArchivePath);
+            var writerOptions = new ZipWriterOptions(CompressionType.Deflate);
+            await archive.SaveToAsync(outputStream, writerOptions);
         }
-
     }
 }

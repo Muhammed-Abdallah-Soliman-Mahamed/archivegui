@@ -1,15 +1,16 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Archive.Models;
 
 namespace Archive.Interface
 {
     public interface IArchiveCreationStrategy
     {
-        bool CanHandle(string destinationArchivePath);
+        /// <summary>هل الاستراتيجية دي تقدر تنشئ الأرشيف ده (حسب الامتداد وخيارات التشفير)؟</summary>
+        bool CanHandle(string destinationArchivePath, ArchiveCreationOptions options);
 
-        Task CreateAsync(List<string> filesToCompress, string destinationArchivePath, Action<long> reportBytesWritten);
-
+        Task CreateAsync(
+            ArchiveInput input,
+            string destinationArchivePath,
+            ArchiveCreationOptions options,
+            Action<long> reportBytesWritten);
     }
 }

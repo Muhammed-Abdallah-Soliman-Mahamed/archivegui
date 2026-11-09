@@ -3,61 +3,419 @@
         xmlns:vm="using:ArchiveGui.ViewModels"
         x:Class="ArchiveGui.Views.MainWindow"
         x:DataType="vm:MainViewModel"
-        Title="Archive GUI"
-        Width="620" Height="580">
+        RequestedThemeVariant="Dark"
+        Title="ArchiveGui"
+        Width="780" Height="760" MinWidth="680" MinHeight="620"
+        Background="{DynamicResource Bg}"
+        Foreground="{DynamicResource Text}">
 
-    <StackPanel Margin="20" Spacing="10">
+    <!-- ═══════════════ الهوية: داكن + بنفسجي، minimal ═══════════════ -->
+    <Window.Resources>
+        <!-- الألوان -->
+        <Color x:Key="BgColor">#0E0B16</Color>
+        <Color x:Key="AccentColor">#8B5CF6</Color>
 
-        <Button Content="اختار ملفات" Click="OnPickFilesClick" />
-        <TextBlock Text="{Binding SelectedFilesText}" />
+        <SolidColorBrush x:Key="Bg" Color="#0E0B16" />
+        <SolidColorBrush x:Key="Surface" Color="#161224" />
+        <SolidColorBrush x:Key="Surface2" Color="#1F1A33" />
+        <SolidColorBrush x:Key="SurfaceHover" Color="#2A2347" />
+        <SolidColorBrush x:Key="Line" Color="#2D2650" />
+        <SolidColorBrush x:Key="Text" Color="#ECE8F8" />
+        <SolidColorBrush x:Key="Muted" Color="#8E86AD" />
+        <SolidColorBrush x:Key="Accent" Color="#8B5CF6" />
+        <SolidColorBrush x:Key="AccentSoft" Color="#B79CFF" />
+        <SolidColorBrush x:Key="AccentDeep" Color="#6D3FE0" />
 
-        <Separator Margin="0,10" />
+        <!-- نخلّي لون الـ accent بتاع Fluent بنفسجي (التركيز، التحديد، شريط التقدم) -->
+        <Color x:Key="SystemAccentColor">#8B5CF6</Color>
+        <Color x:Key="SystemAccentColorLight1">#A78BFA</Color>
+        <Color x:Key="SystemAccentColorLight2">#B79CFF</Color>
+        <Color x:Key="SystemAccentColorLight3">#C9B8FF</Color>
+        <Color x:Key="SystemAccentColorDark1">#7C4DEA</Color>
+        <Color x:Key="SystemAccentColorDark2">#6D3FE0</Color>
+        <Color x:Key="SystemAccentColorDark3">#5B2FC4</Color>
 
-        <TextBlock Text="مكان الحفظ (المجلد):" FontWeight="Bold" />
-        <StackPanel Orientation="Horizontal" Spacing="10">
-            <TextBox Text="{Binding DestinationFolder}" Width="400" IsReadOnly="True" />
-            <Button Content="اختار المجلد" Click="OnPickFolderClick" />
+        <!-- الأزرار العادية -->
+        <SolidColorBrush x:Key="ButtonBackground" Color="#1F1A33" />
+        <SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="#2A2347" />
+        <SolidColorBrush x:Key="ButtonBackgroundPressed" Color="#352C5C" />
+        <SolidColorBrush x:Key="ButtonBackgroundDisabled" Color="#171326" />
+        <SolidColorBrush x:Key="ButtonForeground" Color="#ECE8F8" />
+        <SolidColorBrush x:Key="ButtonForegroundPointerOver" Color="#FFFFFF" />
+        <SolidColorBrush x:Key="ButtonForegroundPressed" Color="#FFFFFF" />
+        <SolidColorBrush x:Key="ButtonForegroundDisabled" Color="#5E577A" />
+        <SolidColorBrush x:Key="ButtonBorderBrush" Color="#2D2650" />
+        <SolidColorBrush x:Key="ButtonBorderBrushPointerOver" Color="#8B5CF6" />
+        <SolidColorBrush x:Key="ButtonBorderBrushPressed" Color="#8B5CF6" />
+        <SolidColorBrush x:Key="ButtonBorderBrushDisabled" Color="#211C38" />
+
+        <!-- حقول الكتابة -->
+        <SolidColorBrush x:Key="TextControlBackground" Color="#0E0B16" />
+        <SolidColorBrush x:Key="TextControlBackgroundPointerOver" Color="#120F1E" />
+        <SolidColorBrush x:Key="TextControlBackgroundFocused" Color="#120F1E" />
+        <SolidColorBrush x:Key="TextControlBackgroundDisabled" Color="#0E0B16" />
+        <SolidColorBrush x:Key="TextControlBorderBrush" Color="#2D2650" />
+        <SolidColorBrush x:Key="TextControlBorderBrushPointerOver" Color="#4A3D80" />
+        <SolidColorBrush x:Key="TextControlBorderBrushFocused" Color="#8B5CF6" />
+        <SolidColorBrush x:Key="TextControlForeground" Color="#ECE8F8" />
+        <SolidColorBrush x:Key="TextControlForegroundPointerOver" Color="#ECE8F8" />
+        <SolidColorBrush x:Key="TextControlForegroundFocused" Color="#FFFFFF" />
+        <SolidColorBrush x:Key="TextControlForegroundDisabled" Color="#8E86AD" />
+
+        <!-- الدروب ليست -->
+        <SolidColorBrush x:Key="ComboBoxBackground" Color="#0E0B16" />
+        <SolidColorBrush x:Key="ComboBoxBackgroundPointerOver" Color="#120F1E" />
+        <SolidColorBrush x:Key="ComboBoxBackgroundPressed" Color="#120F1E" />
+        <SolidColorBrush x:Key="ComboBoxBorderBrush" Color="#2D2650" />
+        <SolidColorBrush x:Key="ComboBoxBorderBrushPointerOver" Color="#4A3D80" />
+        <SolidColorBrush x:Key="ComboBoxBorderBrushPressed" Color="#8B5CF6" />
+        <SolidColorBrush x:Key="ComboBoxForeground" Color="#ECE8F8" />
+        <SolidColorBrush x:Key="ComboBoxDropDownBackground" Color="#161224" />
+        <SolidColorBrush x:Key="ComboBoxDropDownBorderBrush" Color="#2D2650" />
+        <SolidColorBrush x:Key="ComboBoxItemBackgroundPointerOver" Color="#2A2347" />
+        <SolidColorBrush x:Key="ComboBoxItemBackgroundSelected" Color="#352C5C" />
+        <SolidColorBrush x:Key="ComboBoxItemBackgroundSelectedPointerOver" Color="#3D3369" />
+
+        <!-- التابات -->
+        <SolidColorBrush x:Key="TabItemHeaderForegroundUnselected" Color="#8E86AD" />
+        <SolidColorBrush x:Key="TabItemHeaderForegroundUnselectedPointerOver" Color="#ECE8F8" />
+        <SolidColorBrush x:Key="TabItemHeaderForegroundSelected" Color="#ECE8F8" />
+        <SolidColorBrush x:Key="TabItemHeaderForegroundSelectedPointerOver" Color="#FFFFFF" />
+        <SolidColorBrush x:Key="TabItemHeaderSelectedPipeFill" Color="#8B5CF6" />
+
+        <!-- القوائم -->
+        <SolidColorBrush x:Key="ListBoxItemBackgroundPointerOver" Color="#2A2347" />
+        <SolidColorBrush x:Key="ListBoxItemBackgroundSelected" Color="#352C5C" />
+    </Window.Resources>
+
+    <Window.Styles>
+        <Style Selector="TextBlock.muted">
+            <Setter Property="Foreground" Value="{DynamicResource Muted}" />
+            <Setter Property="FontSize" Value="12" />
+        </Style>
+        <Style Selector="TextBlock.label">
+            <Setter Property="Foreground" Value="{DynamicResource Muted}" />
+            <Setter Property="FontSize" Value="12" />
+            <Setter Property="FontWeight" Value="SemiBold" />
+            <Setter Property="Margin" Value="2,0,0,4" />
+        </Style>
+        <Style Selector="TextBlock.section">
+            <Setter Property="Foreground" Value="{DynamicResource AccentSoft}" />
+            <Setter Property="FontSize" Value="13" />
+            <Setter Property="FontWeight" Value="SemiBold" />
+            <Setter Property="Margin" Value="0,0,0,12" />
+        </Style>
+        <Style Selector="TextBlock.mono">
+            <Setter Property="FontFamily" Value="JetBrains Mono, Cascadia Code, Consolas, monospace" />
+        </Style>
+
+        <Style Selector="Border.card">
+            <Setter Property="Background" Value="{DynamicResource Surface}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource Line}" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="CornerRadius" Value="12" />
+            <Setter Property="Padding" Value="18" />
+        </Style>
+
+        <Style Selector="Button">
+            <Setter Property="CornerRadius" Value="8" />
+            <Setter Property="Padding" Value="14,8" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="Cursor" Value="Hand" />
+        </Style>
+
+        <!-- الزرار الأساسي (بنفسجي مليان) -->
+        <Style Selector="Button.primary">
+            <Setter Property="FontWeight" Value="SemiBold" />
+            <Setter Property="Padding" Value="22,10" />
+        </Style>
+        <Style Selector="Button.primary /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="{DynamicResource Accent}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource Accent}" />
+            <Setter Property="Foreground" Value="White" />
+        </Style>
+        <Style Selector="Button.primary:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="{DynamicResource AccentSoft}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource AccentSoft}" />
+            <Setter Property="Foreground" Value="#14101F" />
+        </Style>
+        <Style Selector="Button.primary:pressed /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="{DynamicResource AccentDeep}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource AccentDeep}" />
+            <Setter Property="Foreground" Value="White" />
+        </Style>
+        <Style Selector="Button.primary:disabled /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="#3A2F66" />
+            <Setter Property="BorderBrush" Value="#3A2F66" />
+            <Setter Property="Foreground" Value="#8E86AD" />
+        </Style>
+
+        <!-- زرار صغير للصلاحيات (chmod) -->
+        <Style Selector="Button.chip">
+            <Setter Property="Padding" Value="12,5" />
+            <Setter Property="FontSize" Value="12" />
+            <Setter Property="FontFamily" Value="JetBrains Mono, Cascadia Code, Consolas, monospace" />
+            <Setter Property="CornerRadius" Value="6" />
+        </Style>
+
+        <Style Selector="TextBox">
+            <Setter Property="CornerRadius" Value="8" />
+            <Setter Property="MinHeight" Value="38" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+        </Style>
+        <Style Selector="TextBox.mono">
+            <Setter Property="FontFamily" Value="JetBrains Mono, Cascadia Code, Consolas, monospace" />
+            <Setter Property="FontSize" Value="12" />
+        </Style>
+        <Style Selector="ComboBox">
+            <Setter Property="CornerRadius" Value="8" />
+            <Setter Property="MinHeight" Value="38" />
+        </Style>
+
+        <Style Selector="TabItem">
+            <Setter Property="FontSize" Value="14" />
+            <Setter Property="Padding" Value="18,10" />
+            <Setter Property="Background" Value="Transparent" />
+        </Style>
+
+        <Style Selector="ListBox">
+            <Setter Property="Background" Value="{DynamicResource Bg}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource Line}" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="CornerRadius" Value="8" />
+            <Setter Property="FontFamily" Value="JetBrains Mono, Cascadia Code, Consolas, monospace" />
+            <Setter Property="FontSize" Value="12" />
+        </Style>
+
+        <Style Selector="ProgressBar">
+            <Setter Property="Foreground" Value="{DynamicResource Accent}" />
+            <Setter Property="Background" Value="{DynamicResource Surface2}" />
+            <Setter Property="Height" Value="6" />
+            <Setter Property="MinHeight" Value="6" />
+            <Setter Property="CornerRadius" Value="3" />
+        </Style>
+    </Window.Styles>
+
+    <Grid RowDefinitions="Auto,*,Auto" Margin="24,20,24,18">
+
+        <!-- ═══════════════ الهيدر ═══════════════ -->
+        <StackPanel Grid.Row="0" Orientation="Horizontal" Spacing="14" Margin="0,0,0,14">
+            <Border Width="40" Height="40" CornerRadius="11" Background="{DynamicResource Accent}">
+                <TextBlock Text="&gt;_" Classes="mono" Foreground="White" FontWeight="Bold" FontSize="16"
+                           HorizontalAlignment="Center" VerticalAlignment="Center" />
+            </Border>
+            <StackPanel VerticalAlignment="Center" Spacing="1">
+                <TextBlock Classes="mono" FontSize="21" FontWeight="SemiBold">
+                    <Run Text="archive" /><Run Text="gui" Foreground="{DynamicResource AccentSoft}" />
+                </TextBlock>
+                <TextBlock Classes="muted" Text="ضغط  ·  تشفير  ·  سكربتات" />
+            </StackPanel>
         </StackPanel>
 
-        <TextBlock Text="اسم الملف (بدون امتداد):" FontWeight="Bold" />
-        <TextBox Text="{Binding ArchiveFileName}" Width="300" HorizontalAlignment="Left" />
+        <!-- ═══════════════ التابات ═══════════════ -->
+        <TabControl Grid.Row="1" Background="Transparent" Padding="0">
 
-        <TextBlock Text="الصيغة:" FontWeight="Bold" />
-        <ComboBox ItemsSource="{Binding AvailableFormats}"
-                  SelectedItem="{Binding SelectedFormat}"
-                  Width="250" HorizontalAlignment="Left" />
+            <!-- ───────── إنشاء ───────── -->
+            <TabItem Header="إنشاء">
+                <ScrollViewer Padding="0,14,10,0">
+                    <StackPanel Spacing="14">
 
-        <TextBlock Text="{Binding DestinationPath, StringFormat='المسار النهائي: {0}'}"
-                   FontStyle="Italic" />
+                        <Border Classes="card">
+                            <StackPanel Spacing="10">
+                                <TextBlock Classes="section" Text="المصدر" Margin="0" />
+                                <StackPanel Orientation="Horizontal" Spacing="10">
+                                    <Button Content="اختار ملفات" Click="OnPickFilesClick" />
+                                    <Button Content="اختار مجلد" Click="OnPickSourceFolderClick" />
+                                    <Button Content="مسح" Command="{Binding ClearSelectionCommand}" />
+                                </StackPanel>
+                                <TextBlock Text="{Binding SelectedFilesText}" Classes="muted" TextWrapping="Wrap" />
+                            </StackPanel>
+                        </Border>
 
-        <Separator Margin="0,10" />
+                        <Border Classes="card">
+                            <StackPanel Spacing="12">
+                                <TextBlock Classes="section" Text="الحفظ" Margin="0" />
 
-        <TextBlock Text="مجلد الاستخراج:" FontWeight="Bold" />
-        <StackPanel Orientation="Horizontal" Spacing="10">
-            <TextBox Text="{Binding ExtractionFolder}" Width="400" IsReadOnly="True" />
-            <Button Content="اختار مجلد الاستخراج" Click="OnPickExtractionFolderClick" />
+                                <StackPanel>
+                                    <TextBlock Classes="label" Text="مجلد الحفظ" />
+                                    <Grid ColumnDefinitions="*,Auto" ColumnSpacing="10">
+                                        <TextBox Grid.Column="0" Text="{Binding DestinationFolder}" IsReadOnly="True" />
+                                        <Button Grid.Column="1" Content="اختار المجلد" Click="OnPickDestinationFolderClick" />
+                                    </Grid>
+                                </StackPanel>
+
+                                <Grid ColumnDefinitions="*,*" ColumnSpacing="12">
+                                    <StackPanel Grid.Column="0">
+                                        <TextBlock Classes="label" Text="اسم الملف (من غير امتداد)" />
+                                        <TextBox Text="{Binding ArchiveFileName}" />
+                                    </StackPanel>
+                                    <StackPanel Grid.Column="1">
+                                        <TextBlock Classes="label" Text="الصيغة" />
+                                        <ComboBox ItemsSource="{Binding AvailableFormats}"
+                                                  SelectedItem="{Binding SelectedFormat}"
+                                                  HorizontalAlignment="Stretch" />
+                                    </StackPanel>
+                                </Grid>
+
+                                <TextBlock Text="{Binding DestinationPath, StringFormat='← {0}'}"
+                                           Classes="muted mono" TextWrapping="Wrap" />
+                            </StackPanel>
+                        </Border>
+
+                        <Border Classes="card">
+                            <StackPanel Spacing="12">
+                                <TextBlock Classes="section" Text="الحماية" Margin="0" />
+
+                                <StackPanel>
+                                    <TextBlock Classes="label" Text="التشفير" />
+                                    <ComboBox ItemsSource="{Binding AvailableEncryptions}"
+                                              SelectedItem="{Binding SelectedEncryption}"
+                                              HorizontalAlignment="Stretch" />
+                                </StackPanel>
+
+                                <Grid ColumnDefinitions="*,*" ColumnSpacing="12" IsVisible="{Binding UsePassword}">
+                                    <StackPanel Grid.Column="0">
+                                        <TextBlock Classes="label" Text="الباسورد" />
+                                        <TextBox Text="{Binding Password}" PasswordChar="●" />
+                                    </StackPanel>
+                                    <StackPanel Grid.Column="1">
+                                        <TextBlock Classes="label" Text="تأكيد الباسورد" />
+                                        <TextBox Text="{Binding ConfirmPassword}" PasswordChar="●" />
+                                    </StackPanel>
+                                </Grid>
+
+                                <TextBlock Classes="muted" TextWrapping="Wrap"
+                                           Text="لو نسيت الباسورد مفيش طريقة لاسترجاع الملفات. صيغ tar مفيهاش تشفير." />
+
+                                <TextBlock Text="{Binding ToolsStatusText}" Classes="muted mono" TextWrapping="Wrap" />
+                            </StackPanel>
+                        </Border>
+
+                        <Button Classes="primary" Content="إنشاء الأرشيف"
+                                Command="{Binding CreateArchiveCommand}"
+                                HorizontalAlignment="Left" Margin="0,2,0,10" />
+                    </StackPanel>
+                </ScrollViewer>
+            </TabItem>
+
+            <!-- ───────── استخراج ───────── -->
+            <TabItem Header="استخراج">
+                <ScrollViewer Padding="0,14,10,0">
+                    <StackPanel Spacing="14">
+
+                        <Border Classes="card">
+                            <StackPanel Spacing="12">
+                                <TextBlock Classes="section" Text="الأرشيف" Margin="0" />
+
+                                <StackPanel>
+                                    <TextBlock Classes="label" Text="ملف الأرشيف" />
+                                    <Grid ColumnDefinitions="*,Auto" ColumnSpacing="10">
+                                        <TextBox Grid.Column="0" Text="{Binding SourceArchivePath}" IsReadOnly="True" />
+                                        <Button Grid.Column="1" Content="اختار الأرشيف" Click="OnPickSourceArchiveClick" />
+                                    </Grid>
+                                </StackPanel>
+
+                                <StackPanel>
+                                    <TextBlock Classes="label" Text="الباسورد (لو الأرشيف محمي)" />
+                                    <TextBox Text="{Binding ExtractPassword}" PasswordChar="●" />
+                                </StackPanel>
+
+                                <StackPanel>
+                                    <TextBlock Classes="label" Text="مجلد الاستخراج" />
+                                    <Grid ColumnDefinitions="*,Auto" ColumnSpacing="10">
+                                        <TextBox Grid.Column="0" Text="{Binding ExtractionFolder}" IsReadOnly="True" />
+                                        <Button Grid.Column="1" Content="اختار المجلد" Click="OnPickExtractionFolderClick" />
+                                    </Grid>
+                                </StackPanel>
+
+                                <StackPanel Orientation="Horizontal" Spacing="10" Margin="0,4,0,0">
+                                    <Button Classes="primary" Content="استخراج" Command="{Binding ExtractArchiveCommand}" />
+                                    <Button Content="عرض المحتويات" Command="{Binding ListEntriesCommand}" />
+                                </StackPanel>
+                            </StackPanel>
+                        </Border>
+
+                        <Border Classes="card">
+                            <StackPanel Spacing="10">
+                                <TextBlock Classes="section" Text="المحتويات" Margin="0" />
+                                <ListBox ItemsSource="{Binding ArchiveEntries}" Height="190" />
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+                </ScrollViewer>
+            </TabItem>
+
+            <!-- ───────── سكربتات Bash ───────── -->
+            <TabItem Header="سكربتات Bash">
+                <ScrollViewer Padding="0,14,10,0">
+                    <StackPanel Spacing="14">
+
+                        <Border Classes="card">
+                            <StackPanel Spacing="12">
+                                <TextBlock Classes="section" Text="السكربت" Margin="0" />
+
+                                <Grid ColumnDefinitions="*,Auto" ColumnSpacing="10">
+                                    <TextBox Grid.Column="0" Text="{Binding ScriptPath}" IsReadOnly="True" Classes="mono" />
+                                    <Button Grid.Column="1" Content="اختار سكربت" Click="OnPickScriptClick" />
+                                </Grid>
+
+                                <StackPanel IsEnabled="{Binding IsUnixSupported}" Spacing="8">
+                                    <StackPanel Orientation="Horizontal" Spacing="10">
+                                        <TextBlock Classes="label" Text="الصلاحيات الحالية" VerticalAlignment="Center" Margin="0" />
+                                        <TextBlock Text="{Binding ScriptModeText}" Classes="mono" FontSize="13"
+                                                   Foreground="{DynamicResource AccentSoft}" VerticalAlignment="Center" />
+                                    </StackPanel>
+
+                                    <StackPanel Orientation="Horizontal" Spacing="8">
+                                        <TextBlock Classes="label" Text="chmod" VerticalAlignment="Center" Margin="0,0,4,0" />
+                                        <Button Classes="chip" Content="+x" Command="{Binding ChangeModeCommand}" CommandParameter="+x"
+                                                ToolTip.Tip="+x: يضيف صلاحية التنفيذ للمالك والمجموعة والباقي، فتشغّل السكربت مباشرة (./script.sh)" />
+                                        <Button Classes="chip" Content="-x" Command="{Binding ChangeModeCommand}" CommandParameter="-x"
+                                                ToolTip.Tip="-x: يشيل صلاحية التنفيذ من الكل، فالملف مينفعش يتشغّل مباشرة" />
+                                        <Button Classes="chip" Content="755" Command="{Binding ChangeModeCommand}" CommandParameter="755"
+                                                ToolTip.Tip="755: المالك قراءة+كتابة+تنفيذ، والباقي قراءة+تنفيذ. الشائع للسكربتات" />
+                                        <Button Classes="chip" Content="644" Command="{Binding ChangeModeCommand}" CommandParameter="644"
+                                                ToolTip.Tip="644: المالك قراءة+كتابة، والباقي قراءة بس. ملف عادي مش قابل للتنفيذ" />
+                                        <Button Classes="chip" Content="700" Command="{Binding ChangeModeCommand}" CommandParameter="700"
+                                                ToolTip.Tip="700: المالك بس يقدر يقرأ ويكتب وينفّذ. خصوصية كاملة" />
+                                    </StackPanel>
+                                </StackPanel>
+
+                                <StackPanel>
+                                    <TextBlock Classes="label" Text="وسائط (اختياري)" />
+                                    <TextBox Text="{Binding ScriptArguments}" Classes="mono" />
+                                </StackPanel>
+
+                                <StackPanel Orientation="Horizontal" Spacing="10" Margin="0,4,0,0">
+                                    <Button Classes="primary" Content="تشغيل" Command="{Binding RunScriptCommand}" />
+                                    <Button Content="chmod +x ثم تشغيل" Command="{Binding ChmodAndRunCommand}"
+                                            ToolTip.Tip="يضيف صلاحية التنفيذ (+x) للسكربت ثم يشغّله بـ bash" />
+                                    <Button Content="إيقاف" Command="{Binding CancelScriptCommand}" />
+                                    <Button Content="مسح المخرجات" Command="{Binding ClearScriptOutputCommand}" />
+                                </StackPanel>
+
+                                <TextBlock Classes="muted" TextWrapping="Wrap"
+                                           Text="بيتشغّل بالأمر bash من مجلد السكربت نفسه. السكربت ما بيقدرش يسأل أسئلة (مفيش إدخال تفاعلي)، والمخرجات بتظهر تحت لحظيًا." />
+                            </StackPanel>
+                        </Border>
+
+                        <Border Classes="card">
+                            <StackPanel Spacing="10">
+                                <TextBlock Classes="section" Text="المخرجات" Margin="0" />
+                                <TextBox x:Name="ScriptOutputBox" Text="{Binding ScriptOutput}" Classes="mono"
+                                         IsReadOnly="True" AcceptsReturn="True" TextWrapping="NoWrap"
+                                         Height="240" VerticalContentAlignment="Top" />
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+                </ScrollViewer>
+            </TabItem>
+        </TabControl>
+
+        <!-- ═══════════════ شريط الحالة ═══════════════ -->
+        <StackPanel Grid.Row="2" Spacing="8" Margin="0,12,0,0">
+            <ProgressBar Minimum="0" Maximum="100" Value="{Binding ProgressValue}" />
+            <TextBlock Text="{Binding StatusMessage}" Classes="muted" TextWrapping="Wrap" />
         </StackPanel>
-
-        <StackPanel Orientation="Horizontal" Spacing="10">
-            <Button Content="إنشاء أرشيف" Command="{Binding CreateArchiveCommand}" />
-            <Button Content="عرض المحتويات" Command="{Binding ListEntriesCommand}" />
-            <Button Content="استخراج" Command="{Binding ExtractArchiveCommand}" />
-        </StackPanel>
-
-        <ProgressBar Minimum="0" Maximum="100" Value="{Binding ProgressValue}" Height="20" />
-
-        <TextBlock Text="{Binding StatusMessage}" FontWeight="Bold" />
-
-        <Separator Margin="0,10" />
-
-        <TextBlock Text="ملف الأرشيف (لعرض المحتويات أو الاستخراج):" FontWeight="Bold" />
-        <StackPanel Orientation="Horizontal" Spacing="10">
-            <TextBox Text="{Binding SourceArchivePath}" Width="400" IsReadOnly="True" />
-            <Button Content="اختار ملف الأرشيف" Click="OnPickSourceArchiveClick" />
-        </StackPanel>
-
-        <TextBlock Text="محتويات الأرشيف:" />
-        <ListBox ItemsSource="{Binding ArchiveEntries}" Height="130" />
-
-    </StackPanel>
+    </Grid>
 </Window>

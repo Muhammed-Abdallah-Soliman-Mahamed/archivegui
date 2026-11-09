@@ -26,3 +26,9 @@ node_modules/
 # ملفات احتياطية ونواتج تغليف
 *.bak
 ArchiveGui/dist/
+
+# Build outputs
+**/bin/
+**/obj/
+ArchiveGui/publish/
+ArchiveGui/dist/

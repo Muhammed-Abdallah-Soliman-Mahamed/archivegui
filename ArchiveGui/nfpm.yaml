@@ -2,23 +2,44 @@ name: archivegui
 arch: amd64
 platform: linux
 version: 1.0.0
-release: "1"
+release: "2"
 section: utils
 priority: optional
 maintainer: "Mohammad"
 description: "ArchiveGui - Archive Manager"
 
+depends:
+  - bash
+
+overrides:
+  deb:
+    depends:
+      - bash
+      - "7zip | p7zip-full"
+    recommends:
+      - unrar
+  rpm:
+    depends:
+      - bash
+      - "(7zip or p7zip)"
+  archlinux:
+    depends:
+      - bash
+      - 7zip
+
+scripts:
+  postinstall: ./packaging/postinstall.sh
+
 contents:
-  - src: ./publish/linux-x64/ArchiveGui
-    dst: /usr/lib/archivegui/ArchiveGui
-    file_info:
-      mode: 0755
+  # كامل ملفات النشر والاعتماديات والسكربتات
+  - src: ./publish/linux-x64/
+    dst: /usr/lib/archivegui/
+    type: tree
 
-  - src: ./publish/linux-x64/libSkiaSharp.so
-    dst: /usr/lib/archivegui/libSkiaSharp.so
-
-  - src: ./publish/linux-x64/libHarfBuzzSharp.so
-    dst: /usr/lib/archivegui/libHarfBuzzSharp.so
+  # أمر تثبيت الأدوات الإضافية يدويًا
+  - src: /usr/lib/archivegui/scripts/install-tools.sh
+    dst: /usr/bin/archivegui-install-tools
+    type: symlink
 
   - src: ./packaging/archivegui-launcher
     dst: /usr/bin/archivegui
@@ -27,3 +48,9 @@ contents:
 
   - src: ./packaging/archivegui.desktop
     dst: /usr/share/applications/archivegui.desktop
+
+  - src: ./packaging/servicemenus/archivegui-extract.desktop
+    dst: /usr/share/kio/servicemenus/archivegui-extract.desktop
+
+  - src: ./packaging/servicemenus/archivegui-compress.desktop
+    dst: /usr/share/kio/servicemenus/archivegui-compress.desktop
