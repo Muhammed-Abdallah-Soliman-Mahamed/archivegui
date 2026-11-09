@@ -1,12 +1,18 @@
 name: archivegui
 arch: amd64
 platform: linux
-version: 1.0.0
-release: "2"
+
+epoch: "1"
+version: 0.1.0
+prerelease: beta.1
+release: "1"
+
 section: utils
 priority: optional
 maintainer: "Mohammad"
 description: "ArchiveGui - Archive Manager"
+homepage: "https://github.com/Muhammed-Abdallah-Soliman-Mahamed/archivegui"
+license: "GPL-3.0-only"
 
 depends:
   - bash
@@ -18,10 +24,12 @@ overrides:
       - "7zip | p7zip-full"
     recommends:
       - unrar
+
   rpm:
     depends:
       - bash
       - "(7zip or p7zip)"
+
   archlinux:
     depends:
       - bash
@@ -31,12 +39,10 @@ scripts:
   postinstall: ./packaging/postinstall.sh
 
 contents:
-  # كامل ملفات النشر والاعتماديات والسكربتات
   - src: ./publish/linux-x64/
     dst: /usr/lib/archivegui/
     type: tree
 
-  # أمر تثبيت الأدوات الإضافية يدويًا
   - src: /usr/lib/archivegui/scripts/install-tools.sh
     dst: /usr/bin/archivegui-install-tools
     type: symlink
@@ -54,3 +60,9 @@ contents:
 
   - src: ./packaging/servicemenus/archivegui-compress.desktop
     dst: /usr/share/kio/servicemenus/archivegui-compress.desktop
+
+rpm:
+  packager: "Mohammad"
+
+archlinux:
+  packager: "Mohammad"
